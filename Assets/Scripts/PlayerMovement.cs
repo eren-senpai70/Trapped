@@ -6,27 +6,36 @@ public class PlayerMovement : MonoBehaviour
 {
     public float movMult;
     public float turnMult;
-    public float JumpMult;
+    public float jumpMult;
     Rigidbody rb;
 
-    // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        rb= GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.Translate(Input.GetAxis("Horizontal") * movMult, 0, Input.GetAxis("Vertical") * movMult);
-        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * turnMult);
+        // Movement
+        float moveX = Input.GetAxis("Horizontal") * movMult;
+        float moveZ = Input.GetAxis("Vertical") * movMult;
+        transform.Translate(moveX, 0, moveZ);
 
-        if(Input.GetButton("Jump"))
+        // Camera Rotation: Separate Mouse and Controller Input
+        float mouseX = Input.GetAxis("Mouse X") * turnMult;  // Mouse movement
+        float controllerX = Input.GetAxis("RightStickX") * turnMult; // Controller Right Stick (custom mapping)
+
+        // Use controller input only if it's not zero (avoiding conflict with Mouse X)
+        float rotation = Mathf.Abs(controllerX) > 0.1f ? controllerX : mouseX;
+        transform.Rotate(Vector3.up * rotation);
+
+        // Jump
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(Vector2.up * JumpMult);
+            rb.AddForce(Vector3.up * jumpMult, ForceMode.Impulse);
         }
     }
 }

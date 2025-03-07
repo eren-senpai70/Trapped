@@ -1115,9 +1115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0a85cd5665996f4080bbe28088147c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movMult: 0.02
+  movMult: 0.1
   turnMult: 1
-  JumpMult: 10
+  JumpMult: 50
 --- !u!136 &1754205651
 CapsuleCollider:
   m_ObjectHideFlags: 0
